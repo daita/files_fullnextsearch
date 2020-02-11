@@ -132,7 +132,7 @@ class FilesEvents {
 		}
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		if ($this->configService->isCloudVersionAtLeast(15, 0, 1)) {
+		if ($this->configService->isCloudVersionAtLeast(15, 0, 1) && !$this->configService->isPathExcluded($path)) {
 			$this->fullTextSearchManager->createIndex(
 				'files', (string)$file->getId(), $this->userId, IIndex::INDEX_FULL
 			);

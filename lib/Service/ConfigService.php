@@ -49,6 +49,7 @@ class ConfigService {
 	const FILES_LOCAL = 'files_local';
 	const FILES_EXTERNAL = 'files_external';
 	const FILES_GROUP_FOLDERS = 'files_group_folders';
+	const FILES_EXCLUDED = 'files_excluded';
 	const FILES_ENCRYPTED = 'files_encrypted';
 	const FILES_FEDERATED = 'files_federated';
 	const FILES_SIZE = 'files_size';
@@ -62,6 +63,7 @@ class ConfigService {
 		self::FILES_LOCAL         => '1',
 		self::FILES_EXTERNAL      => '0',
 		self::FILES_GROUP_FOLDERS => '0',
+		self::FILES_EXCLUDED	  => '',
 		self::FILES_ENCRYPTED     => '0',
 		self::FILES_FEDERATED     => '0',
 		self::FILES_SIZE          => '20',
@@ -286,5 +288,53 @@ class ConfigService {
 		return false;
 	}
 
+	/**
+	 * Check if the path is excluded via configuration
+	 * and therefore the file shouldn't be indexed
+	 * 
+	 * @param $filePath The file to be indexed
+	 * 
+	 * @return bool
+	 */
+	public function isPathExcluded($filePath): bool {
+		$excludedPaths = $this->getExcludedPaths($filePath);
+		foreach($excludedPaths as $excludedPath) {
+			if ($this->isPathMatch($filePath, $excludedPath)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private function getExcludedPaths(): array {
+		$csvPaths = $this->getAppValue('files_excluded');
+		if (!$csvPaths) {
+			return array();
+		}
+		$paths = array_map('trim', explode(';', $csvPaths));
+
+		return $paths;
+	}
+
+	private function isPathMatch($filePath, $excludePath): bool {
+		$len = strlen($excludePath); 
+		if (!$len) {
+			return false;
+		}
+
+		// check 'startsWith'
+    	if ($len <= strlen($filePath) && substr($filePath, 0, $len) === $excludePath) {
+			return true;
+		}
+
+		// check regex match
+		$regexPattern = '/' . str_replace('/', '\/', $excludePath) . '/';
+		if (preg_match($regexPattern, $filePath)) {
+			return true;
+		}
+
+		return false;
+	}
 }
 

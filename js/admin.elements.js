@@ -36,6 +36,7 @@ var files_elements = {
 	files_encrypted: null,
 	files_federated: null,
 	files_group_folders: null,
+	files_excluded: null,
 	files_size: null,
 	files_office: null,
 	files_pdf: null,
@@ -47,6 +48,7 @@ var files_elements = {
 		files_elements.files_local = $('#files_local');
 		files_elements.files_external = $('#files_external');
 		files_elements.files_group_folders = $('#files_group_folders');
+		files_elements.files_excluded = $('#files_excluded');
 		files_elements.files_encrypted = $('#files_encrypted');
 		files_elements.files_federated = $('#files_federated');
 		files_elements.files_size = $('#files_size');
@@ -58,6 +60,7 @@ var files_elements = {
 		files_elements.files_local.on('change', files_elements.updateSettings);
 		files_elements.files_external.on('change', files_elements.updateSettings);
 		files_elements.files_group_folders.on('change', files_elements.updateSettings);
+		files_elements.files_excluded.on('change', files_elements.updateSettings);
 		files_elements.files_encrypted.on('change', files_elements.updateSettings);
 		files_elements.files_federated.on('change', files_elements.updateSettings);
 		files_elements.files_size.on('change', files_elements.updateSettings);
