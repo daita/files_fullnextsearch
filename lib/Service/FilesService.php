@@ -226,12 +226,16 @@ class FilesService {
 		}
 
 		foreach ($files as $file) {
+			$filePath = $this->getPathFromRoot($file->getPath(), $userId, true);
+			if ($this->configService->isPathExcluded($filePath)) {
+				continue;
+			}
 			if ($file->getType() === FileInfo::TYPE_FOLDER && $level < self::CHUNK_TREE_SIZE) {
 				/** @var $file Folder */
 				$entries =
 					array_merge($entries, $this->getChunksFromDirectory($userId, $file, $level));
 			} else {
-				$entries[] = $this->getPathFromRoot($file->getPath(), $userId, true);
+				$entries[] = $filePath;
 			}
 		}
 

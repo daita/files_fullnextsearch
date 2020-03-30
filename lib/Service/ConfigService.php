@@ -83,6 +83,9 @@ class ConfigService {
 	/** @var MiscService */
 	private $miscService;
 
+	/** @var array */
+	private $excludedFilesCache;
+
 
 	/**
 	 * ConfigService constructor.
@@ -308,13 +311,16 @@ class ConfigService {
 	}
 
 	private function getExcludedPaths(): array {
+		if (is_array($this->excludedFilesCache)) {
+			return $this->excludedFilesCache;
+		}
 		$csvPaths = $this->getAppValue('files_excluded');
 		if (!$csvPaths) {
 			return array();
 		}
-		$paths = array_map('trim', explode(';', $csvPaths));
+		$this->excludedFilesCache = array_map('trim', explode(';', $csvPaths));
 
-		return $paths;
+		return $this->excludedFilesCache;
 	}
 
 	private function isPathMatch($filePath, $excludePath): bool {
