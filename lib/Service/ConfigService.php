@@ -300,7 +300,7 @@ class ConfigService {
 	 * @return bool
 	 */
 	public function isPathExcluded($filePath): bool {
-		$excludedPaths = $this->getExcludedPaths($filePath);
+		$excludedPaths = $this->getExcludedPaths();
 		foreach($excludedPaths as $excludedPath) {
 			if ($this->isPathMatch($filePath, $excludedPath)) {
 				return true;
