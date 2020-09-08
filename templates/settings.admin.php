@@ -81,6 +81,17 @@ Util::addScript(Application::APP_NAME, 'admin');
 			</div>
 		</div>
 
+		<div class="div-table-row">
+				<div class="div-table-col div-table-col-left">
+					<span class="leftcol"><?php p($l->t('Exclude Paths')); ?>:</span>
+					<br/>
+					<em><?php p($l->t('Paths to exclude (either subpath or regex). Multiple values must be separated by a semicolon.')); ?></em>
+				</div>
+				<div class="div-table-col">
+					<input type="text" id="files_excluded" value="" placeholder="e.g. /myfolder or /myfolder/.*\.js"/>
+				</div>
+			</div>
+
 		<!--<div class="div-table-row">
 			<div class="div-table-col div-table-col-left">
 				<span class="leftcol">Encrypted Files:</span>
